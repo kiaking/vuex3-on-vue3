@@ -1,24 +1,14 @@
 <template>
   <h1>Hello, Vue 3.</h1>
-
-  <button @click="inc">Clicked {{ count }} times.</button>
 </template>
 
 <script>
+import Vuex from './vuex'
 import { ref } from 'vue'
 
+const store = new Vuex.Store({})
+
 export default {
-  setup() {
-    const count = ref(0)
-
-    const inc = () => {
-      count.value++
-    }
-
-    return {
-      count,
-      inc
-    }
-  }
+  store
 }
 </script>

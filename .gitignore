@@ -1,1 +1,12 @@
-/node_modules
+.DS_Store
+node_modules
+TODO.md
+lib
+docs/.vuepress/dist
+examples/**/build.js
+types/typings
+types/test/*.js
+explorations
+*.log
+test/e2e/reports
+test/e2e/screenshots

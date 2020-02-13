@@ -1,23 +1,31 @@
 <template>
-  <div id="app">
-    Clicked: {{ count }} times, count is {{ evenOrOdd }}.
+  <div>
+    t: {{ test }}
+    Value: {{ count }}
     <button @click="increment">+</button>
     <button @click="decrement">-</button>
     <button @click="incrementIfOdd">Increment if odd</button>
     <button @click="incrementAsync">Increment async</button>
+    <div>
+      <div>Recent History (last 5 entries): {{ recentHistory }}</div>
+    </div>
   </div>
 </template>
 
 <script>
-import { computed, toRefs, inject } from 'vue'
+import { computed, inject } from 'vue'
 
 export default {
   setup () {
     const store = inject('store')
 
+    const test = computed(() => store.getters.t)
+    const count = computed(() => store.getters.count)
+
     return {
-      count: computed(() => store.state.count),
-      evenOrOdd: computed(() => store.getters.evenOrOdd),
+      test,
+      count,
+      recentHistory: store.getters.recentHistory,
       increment: () => store.dispatch('increment'),
       decrement: () => store.dispatch('decrement'),
       incrementIfOdd: () => store.dispatch('incrementIfOdd'),

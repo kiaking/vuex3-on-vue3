@@ -6,6 +6,10 @@ import { forEachValue, isObject, isPromise, assert, partial } from './util'
 
 let Vue // bind on install
 
+export function createStore (options) {
+  return new Store(options)
+}
+
 export class Store {
   constructor (options = {}) {
     // TODO: Bring back this one if needed.

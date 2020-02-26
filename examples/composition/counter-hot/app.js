@@ -5,6 +5,6 @@ import CounterControls from './CounterControls.vue'
 
 const app = createApp(CounterControls)
 
-app.use(Vuex, store)
+app.use(store)
 
 app.mount('#app')

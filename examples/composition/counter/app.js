@@ -6,6 +6,6 @@ import store from './store'
 
 const app = createApp(Counter)
 
-app.use(Vuex, store)
+app.use(store)
 
 app.mount('#app')

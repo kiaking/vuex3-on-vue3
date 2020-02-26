@@ -77,6 +77,23 @@ export class Store {
     }
   }
 
+  install (app) {
+    // TODO: Removing double install check for now. Maybe we can bring this
+    // feature back again if needed.
+    //
+    // if (Vue && _Vue === Vue) {
+    //   if (process.env.NODE_ENV !== 'production') {
+    //     console.error(
+    //       '[vuex] already installed. Vue.use(Vuex) should be called only once.'
+    //     )
+    //   }
+    //   return
+    // }
+    // Vue = _Vue
+
+    applyMixin(app, this)
+  }
+
   get state () {
     return this._vm._data.$$state
   }
@@ -550,21 +567,4 @@ function unifyObjectStyle (type, payload, options) {
   }
 
   return { type, payload, options }
-}
-
-export function install (app, store) {
-  // TODO: Removing double install check for now. Maybe we can bring this
-  // feature back again if needed.
-  //
-  // if (Vue && _Vue === Vue) {
-  //   if (process.env.NODE_ENV !== 'production') {
-  //     console.error(
-  //       '[vuex] already installed. Vue.use(Vuex) should be called only once.'
-  //     )
-  //   }
-  //   return
-  // }
-  // Vue = _Vue
-
-  applyMixin(app, store)
 }

@@ -4,15 +4,15 @@ import { deepCopy } from '../util'
 
 export default function createLogger ({
   collapsed = true,
-  filter = (mutation, stateBefore, stateAfter) => true,
-  transformer = state => state,
-  mutationTransformer = mut => mut,
+  filter = (mutation: any, stateBefore: any, stateAfter: any) => true,
+  transformer = (state: any) => state,
+  mutationTransformer = (mut: any) => mut,
   logger = console
 } = {}) {
-  return store => {
+  return (store: any) => {
     let prevState = deepCopy(store.state)
 
-    store.subscribe((mutation, state) => {
+    store.subscribe((mutation: any, state: any) => {
       if (typeof logger === 'undefined') {
         return
       }
@@ -50,10 +50,10 @@ export default function createLogger ({
   }
 }
 
-function repeat (str, times) {
+function repeat (str: string, times: number): string {
   return (new Array(times + 1)).join(str)
 }
 
-function pad (num, maxLength) {
+function pad (num: number, maxLength: number): string {
   return repeat('0', maxLength - num.toString().length) + num
 }

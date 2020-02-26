@@ -1,7 +1,6 @@
 export const count = state => state.count
 
 export const t = (state) => {
-  console.log('HIT!')
   return state.test
 }
 

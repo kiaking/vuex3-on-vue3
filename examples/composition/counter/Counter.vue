@@ -9,11 +9,12 @@
 </template>
 
 <script>
-import { computed, toRefs, inject } from 'vue'
+import { computed } from 'vue'
+import { useStore } from 'vuex'
 
 export default {
   setup () {
-    const store = inject('store')
+    const store = useStore()
 
     return {
       count: computed(() => store.state.count),

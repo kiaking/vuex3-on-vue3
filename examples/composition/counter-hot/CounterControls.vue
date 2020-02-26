@@ -1,6 +1,5 @@
 <template>
   <div>
-    t: {{ test }}
     Value: {{ count }}
     <button @click="increment">+</button>
     <button @click="decrement">-</button>
@@ -13,19 +12,16 @@
 </template>
 
 <script>
-import { computed, inject } from 'vue'
+import { computed } from 'vue'
+import { useStore } from 'vuex'
 
 export default {
   setup () {
-    const store = inject('store')
-
-    const test = computed(() => store.getters.t)
-    const count = computed(() => store.getters.count)
+    const store = useStore()
 
     return {
-      test,
-      count,
-      recentHistory: store.getters.recentHistory,
+      count: computed(() => store.getters.count),
+      recentHistory: computed(() => store.getters.recentHistory),
       increment: () => store.dispatch('increment'),
       decrement: () => store.dispatch('decrement'),
       incrementIfOdd: () => store.dispatch('incrementIfOdd'),

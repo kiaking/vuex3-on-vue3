@@ -77,7 +77,7 @@ export class Store {
     }
   }
 
-  install (app) {
+  install (app, injectKey) {
     // TODO: Removing double install check for now. Maybe we can bring this
     // feature back again if needed.
     //
@@ -91,7 +91,7 @@ export class Store {
     // }
     // Vue = _Vue
 
-    applyMixin(app, this)
+    applyMixin(app, this, injectKey)
   }
 
   get state () {

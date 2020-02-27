@@ -44,11 +44,11 @@ function createEntry(
             ? // preserve to be handled by bundlers
               `process.env.NODE_ENV !== 'production'`
             : // hard coded dev/prod builds
-              !isProductionBuild,
+              !isProductionBuild
       }),
       alias({
-        resolve: ['ts'],
-      }),
+        resolve: ['ts']
+      })
     ],
     output: {
       banner,
@@ -56,8 +56,8 @@ function createEntry(
       format,
       globals: {
         vue: 'Vue'
-      },
-    },
+      }
+    }
   }
 
   if (format === 'iife') {
@@ -84,21 +84,17 @@ function createEntry(
         compilerOptions: {
           // same for d.ts files
           declaration: format === 'es' && isBrowser && !minify,
-          module: 'esnext', // we need to override it because mocha requires this value to be commonjs
-          target: format === 'iife' || format === 'cjs' ? 'es5' : 'esnext',
-        },
-      },
+          // we need to override module because mocha requires this value to be commonjs
+          module: 'esnext',
+          target: format === 'iife' || format === 'cjs' ? 'es5' : 'esnext'
+        }
+      }
     })
   )
 
   if (minify) {
     config.plugins.push(
-      terser({
-        module: format === 'es',
-        // output: {
-        //   preamble: banner,
-        // },
-      })
+      terser({ module: format === 'es' })
     )
     config.output.file = config.output.file.replace(/\.js$/i, '.min.js')
   }
@@ -107,11 +103,9 @@ function createEntry(
 }
 
 export default [
-  // browser-friendly UMD build
   createEntry({ format: 'iife' }),
   createEntry({ format: 'iife', minify: true }),
   createEntry({ format: 'cjs' }),
-  // TODO: prod vs env
   createEntry({ format: 'es' }),
   createEntry({ format: 'es', isBrowser: true })
 ]

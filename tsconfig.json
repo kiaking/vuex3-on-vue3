@@ -1,21 +1,25 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
-    "outDir": "dist",
-    "sourceMap": false,
     "target": "esnext",
-    "module": "esnext",
+    "module": "commonjs",
     "moduleResolution": "node",
+    "strict": true,
     "allowJs": false,
+    "baseUrl": ".",
+    "rootDir": ".",
+    "outDir": "dist",
+    "declaration": true,
+    "sourceMap": true,
     "noUnusedLocals": true,
     "strictNullChecks": true,
     "noImplicitAny": true,
     "noImplicitThis": true,
     "esModuleInterop": true,
     "removeComments": false,
+
     "lib": ["esnext", "dom"],
-    "types": ["jest", "node"],
-    "rootDir": "."
+
+    "types": ["jest", "node"]
   },
   "include": [
     "src",

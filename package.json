@@ -2,16 +2,15 @@
   "name": "vuex",
   "version": "3.1.2",
   "description": "state management for Vue.js",
-  "main": "dist/vuex.common.js",
-  "module": "dist/vuex.esm.js",
+  "main": "dist/vuex.cjs.js",
+  "browser": "dist/vuex.esm.js",
+  "module": "dist/vuex.esm-bundler.js",
   "unpkg": "dist/vuex.js",
-  "jsdelivr": "dist/vuex.js",
-  "typings": "types/index.d.ts",
+  "types": "dist/src/index.d.ts",
+  "sideEffects": false,
   "files": [
     "dist",
-    "types/index.d.ts",
-    "types/helpers.d.ts",
-    "types/vue.d.ts"
+    "README.md"
   ],
   "scripts": {
     "dev": "node examples/server.js",
@@ -39,6 +38,9 @@
     "url": "https://github.com/vuejs/vuex/issues"
   },
   "homepage": "https://github.com/vuejs/vuex#readme",
+  "peerDependencies": {
+    "vue": "^3.0.0-alpha.6"
+  },
   "devDependencies": {
     "@rollup/plugin-alias": "^3.0.1",
     "@rollup/plugin-node-resolve": "^7.1.1",
@@ -65,7 +67,6 @@
     "rollup": "^1.31.1",
     "rollup-plugin-buble": "^0.19.6",
     "rollup-plugin-commonjs": "^10.1.0",
-    "rollup-plugin-replace": "^2.1.0",
     "rollup-plugin-terser": "^5.2.0",
     "rollup-plugin-typescript2": "^0.26.0",
     "terser": "^3.17.0",

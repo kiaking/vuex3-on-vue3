@@ -1,6 +1,4 @@
 import replace from '@rollup/plugin-replace'
-import resolve from '@rollup/plugin-node-resolve'
-import commonjs from 'rollup-plugin-commonjs'
 import ts from 'rollup-plugin-typescript2'
 import alias from '@rollup/plugin-alias'
 import { terser } from 'rollup-plugin-terser'
@@ -12,27 +10,32 @@ const banner = `/*!
   * @license MIT
   */`
 
-const exportName = 'Vuex'
+const configs = [
+  { input: 'src/index.ts', file: 'dist/vuex.js', format: 'iife' },
+  { input: 'src/index.ts', file: 'dist/vuex.min.js', format: 'iife', minify: true },
+  { input: 'src/index.ts', file: 'dist/vuex.cjs.js', format: 'cjs' },
+  { input: 'src/index.ts', file: 'dist/vuex.esm-bundler.js', format: 'es' },
+  { input: 'src/index.ts', file: 'dist/vuex.esm.js', format: 'es', browser: true }
+]
 
-function createEntry(
-  {
-    format, // Rollup format (iife, umd, cjs, es)
-    external = ['vue'], // Rollup external option
-    input = 'src/index.ts', // entry point
-    env = 'development', // NODE_ENV variable
-    minify = false,
-    isBrowser = false, // produce a browser module version or not
-  } = {
-    input: 'src/index.ts',
-    env: 'development',
-    minify: false,
-    isBrowser: false,
-  }
-) {
+function createEntries() {
+  return configs.map(c => createEntry(c))
+}
+
+function createEntry({
+  format, // Rollup format (iife, umd, cjs, es)
+  input = 'src/index.ts', // entry point
+  file, // output file name
+  env = 'development', // NODE_ENV variable
+  minify = false,
+  browser = false, // produce a browser module version or not
+}) {
   // force production mode when minifying
-  if (minify) env = 'production'
-  const isProductionBuild =
-    process.env.__DEV__ === 'false' || env === 'production'
+  if (minify) {
+    env = 'production'
+  }
+
+  const isProductionBuild = process.env.__DEV__ === 'false' || env === 'production'
 
   const config = {
     input,
@@ -40,7 +43,7 @@ function createEntry(
       replace({
         __VERSION__: JSON.stringify(pkg.version),
         __DEV__:
-          (format === 'es' && !isBrowser) || format === 'cjs'
+          (format === 'es' && !browser) || format === 'cjs'
             ? // preserve to be handled by bundlers
               `process.env.NODE_ENV !== 'production'`
             : // hard coded dev/prod builds
@@ -48,64 +51,41 @@ function createEntry(
       }),
       alias({
         resolve: ['ts']
+      }),
+      ts({
+        // only check once, during the es version with browser (it includes external libs)
+        check: format === 'es' && browser && !minify,
+        tsconfigOverride: {
+          compilerOptions: {
+            // same for d.ts files
+            declaration: format === 'es' && browser && !minify,
+            // we need to override module because mocha requires this value to be commonjs
+            module: 'esnext',
+            target: format === 'iife' || format === 'cjs' ? 'es5' : 'esnext'
+          },
+          exclude: ['**/__tests__']
+        }
       })
     ],
     output: {
       banner,
-      file: 'dist/vuex.other.js',
+      file,
       format,
+      name: 'Vuex',
       globals: {
         vue: 'Vue'
       }
-    }
+    },
+    external: ['vue']
   }
-
-  if (format === 'iife') {
-    // config.input = 'src/entries/iife.ts'
-    config.output.file = pkg.unpkg
-    config.output.name = exportName
-  } else if (format === 'es') {
-    config.output.file = isBrowser ? pkg.browser : pkg.module
-  } else if (format === 'cjs') {
-    config.output.file = 'dist/vuex.cjs.js'
-  }
-
-  if (!external) {
-    config.plugins.push(resolve(), commonjs())
-  } else {
-    config.external = external
-  }
-
-  config.plugins.push(
-    ts({
-      // only check once, during the es version with browser (it includes external libs)
-      check: format === 'es' && isBrowser && !minify,
-      tsconfigOverride: {
-        compilerOptions: {
-          // same for d.ts files
-          declaration: format === 'es' && isBrowser && !minify,
-          // we need to override module because mocha requires this value to be commonjs
-          module: 'esnext',
-          target: format === 'iife' || format === 'cjs' ? 'es5' : 'esnext'
-        }
-      }
-    })
-  )
 
   if (minify) {
     config.plugins.push(
       terser({ module: format === 'es' })
     )
-    config.output.file = config.output.file.replace(/\.js$/i, '.min.js')
   }
 
   return config
 }
 
-export default [
-  createEntry({ format: 'iife' }),
-  createEntry({ format: 'iife', minify: true }),
-  createEntry({ format: 'cjs' }),
-  createEntry({ format: 'es' }),
-  createEntry({ format: 'es', isBrowser: true })
-]
+export default createEntries()

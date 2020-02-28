@@ -1,7 +1,7 @@
 module.exports = {
   'chat': function (browser) {
     browser
-      .url('http://localhost:8080/chat/')
+      .url('http://localhost:8080/composition/chat/')
       .waitForElementVisible('.chatapp', 1000)
       .assert.containsText('.thread-count', 'Unread threads: 2')
       .assert.count('.thread-list-item', 3)
@@ -10,7 +10,7 @@ module.exports = {
       .assert.count('.message-list-item', 2)
       .assert.containsText('.message-list-item:nth-child(1) .message-author-name', 'Bill')
       .assert.containsText('.message-list-item:nth-child(1) .message-text', 'Hey Brian')
-      .enterValue('.message-composer', 'hi')
+      .setValue('.message-composer', ['hi', browser.Keys.ENTER])
       .waitFor(50) // fake api
       .assert.count('.message-list-item', 3)
       .assert.containsText('.message-list-item:nth-child(3)', 'hi')
@@ -20,7 +20,7 @@ module.exports = {
       .assert.count('.message-list-item', 2)
       .assert.containsText('.message-list-item:nth-child(1) .message-author-name', 'Bill')
       .assert.containsText('.message-list-item:nth-child(1) .message-text', 'Hey Dave')
-      .enterValue('.message-composer', 'hi')
+      .setValue('.message-composer', ['hi', browser.Keys.ENTER])
       .waitFor(50) // fake api
       .assert.count('.message-list-item', 3)
       .assert.containsText('.message-list-item:nth-child(3)', 'hi')

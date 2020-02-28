@@ -1,5 +1,4 @@
 import { createApp } from 'vue'
-import Vuex from 'vuex'
 import store from './store'
 import CounterControls from './CounterControls.vue'
 

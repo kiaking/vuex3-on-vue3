@@ -1,9 +1,8 @@
-import 'babel-polyfill'
 import { createApp } from 'vue'
-import Counter from './Counter.vue'
 import store from './store'
+import App from './components/App.vue'
 
-const app = createApp(Counter)
+const app = createApp(App)
 
 app.use(store)
 

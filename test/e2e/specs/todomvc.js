@@ -1,7 +1,7 @@
 module.exports = {
   'todomvc': function (browser) {
     browser
-      .url('http://localhost:8080/todomvc/')
+      .url('http://localhost:8080/composition/todomvc/')
       .waitForElementVisible('.todoapp', 1000)
       .assert.notVisible('.main')
       .assert.notVisible('.footer')
@@ -115,7 +115,7 @@ module.exports = {
     browser
       .dblClick('.todo label')
     deleteValue('.todo:nth-child(1) .edit', 'edited!')
-      .enterValue('.todo:nth-child(1) .edit', 'edited again!')
+      .setValue('.todo:nth-child(1) .edit', ['edited again!', browser.Keys.ENTER])
       .assert.count('.todo.editing', 0)
       .assert.containsText('.todo:nth-child(1) label', 'edited again!')
 
@@ -123,7 +123,7 @@ module.exports = {
     browser
       .dblClick('.todo label')
     deleteValue('.todo:nth-child(1) .edit', 'edited again!')
-      .setValue('.todo:nth-child(1) .edit', 'edited!')
+      .setValue('.todo:nth-child(1) .edit', ['edited!', browser.Keys.ESCAPE])
       .trigger('.todo:nth-child(1) .edit', 'keyup', 27)
       .assert.count('.todo.editing', 0)
       .assert.containsText('.todo:nth-child(1) label', 'edited again!')
@@ -132,7 +132,7 @@ module.exports = {
     browser
       .dblClick('.todo label')
     deleteValue('.todo:nth-child(1) .edit', 'edited again!')
-      .enterValue('.todo:nth-child(1) .edit', ' ')
+      .setValue('.todo:nth-child(1) .edit', [' ', browser.Keys.ENTER])
       .assert.count('.todo', 3)
 
     // toggle all
@@ -144,7 +144,8 @@ module.exports = {
       .end()
 
     function createNewItem (text) {
-      return browser.enterValue('.new-todo', text)
+      return browser
+        .setValue('.new-todo', [text, browser.Keys.ENTER])
     }
 
     function removeItemAt (n) {

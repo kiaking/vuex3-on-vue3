@@ -205,10 +205,7 @@ export class Store {
     if (process.env.NODE_ENV !== 'production') {
       assert(typeof getter === 'function', `store.watch only accepts a function.`)
     }
-    return watch(() => getter(this.state, this.getters), cb, Object.assign({}, options, {
-      flush: 'sync',
-      lazy: true
-    }))
+    return watch(() => getter(this.state, this.getters), cb, Object.assign({}, options))
 
     // TODO: Remove the following code. Itt's just reference to the old impl.
     // return this._watcherVM.$watch(() => getter(this.state, this.getters), cb, options)
@@ -552,7 +549,7 @@ function enableStrictMode (store) {
     if (process.env.NODE_ENV !== 'production') {
       assert(store._committing, `do not mutate vuex store state outside mutation handlers.`)
     }
-  }, { deep: true, flush: 'sync', lazy: true })
+  }, { deep: true, flush: 'sync' })
 }
 
 function getNestedState (state, path) {

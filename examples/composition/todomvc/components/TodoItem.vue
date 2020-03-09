@@ -1,5 +1,5 @@
 <template>
-  <li class="todo" :class="{ completed: todo.done, editing: editing }">
+  <li class="todo" :class="{ completed: todo.done, editing }">
     <div class="view">
       <input class="toggle"
         type="checkbox"

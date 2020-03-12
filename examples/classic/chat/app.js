@@ -1,19 +1,13 @@
 import 'babel-polyfill'
-import Vue from 'vue'
+import { createApp } from 'vue'
 import App from './components/App.vue'
 import store from './store'
 import { getAllMessages } from './store/actions'
 
-Vue.config.debug = true
+const app = createApp(App)
 
-Vue.filter('time', timestamp => {
-  return new Date(timestamp).toLocaleTimeString()
-})
+app.use(store)
 
-new Vue({
-  el: '#app',
-  store,
-  render: h => h(App)
-})
+app.mount('#app')
 
 getAllMessages(store)

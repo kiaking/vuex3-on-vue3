@@ -4,7 +4,7 @@ import devtoolPlugin from './plugins/devtool'
 import ModuleCollection from './module/module-collection'
 import { forEachValue, isObject, isPromise, assert, partial } from './util'
 
-let Vue // bind on install
+// let Vue // bind on install
 
 export function createStore (options) {
   return new Store(options)
@@ -42,10 +42,6 @@ export class Store {
     this._modules = new ModuleCollection(options)
     this._modulesNamespaceMap = Object.create(null)
     this._subscribers = []
-
-    // TODO: Reemove this one. We don't use it anymore.
-    // this._watcherVM = new Vue()
-
     this._makeLocalGettersCache = Object.create(null)
 
     // bind commit and dispatch to self
@@ -206,9 +202,6 @@ export class Store {
       assert(typeof getter === 'function', `store.watch only accepts a function.`)
     }
     return watch(() => getter(this.state, this.getters), cb, Object.assign({}, options))
-
-    // TODO: Remove the following code. Itt's just reference to the old impl.
-    // return this._watcherVM.$watch(() => getter(this.state, this.getters), cb, options)
   }
 
   replaceState (state) {
@@ -242,8 +235,6 @@ export class Store {
     this._withCommit(() => {
       const parentState = getNestedState(this.state, path.slice(0, -1))
       delete parentState[path[path.length - 1]]
-      // TODO: Remove this code. It's just reference to the old impl.
-      // Vue.delete(parentState, path[path.length - 1])
     })
     resetStore(this)
   }
@@ -326,15 +317,6 @@ function resetStoreVM (store, state, hot) {
     }
   })
 
-  // TODO: Delete this. It's just a reference to old impl.
-  //
-  // store._vm = new Vue({
-  //   _data: {
-  //     $$state: state
-  //   },
-  //   computed
-  // })
-
   // TODO: Bring back maybe?
   //
   // Vue.config.silent = silent
@@ -381,12 +363,7 @@ function installModule (store, rootState, path, module, hot) {
           )
         }
       }
-      // TODO: Directly attaching module state to the existing object. It's
-      // working but I would like to come back and double check this one.
       parentState[moduleName] = module.state
-
-      // TODO: This is the original impl. Delete it.
-      // Vue.set(parentState, moduleName, module.state)
     })
   }
 

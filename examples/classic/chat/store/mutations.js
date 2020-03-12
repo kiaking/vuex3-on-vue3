@@ -1,5 +1,3 @@
-import Vue from 'vue'
-
 export default {
   receiveAll (state, messages) {
     let latestMessage
@@ -29,12 +27,15 @@ export default {
 }
 
 function createThread (state, id, name) {
-  Vue.set(state.threads, id, {
-    id,
-    name,
-    messages: [],
-    lastMessage: null
-  })
+  state.threads = {
+    ...state.threads,
+    [id]: {
+      id,
+      name,
+      messages: [],
+      lastMessage: null
+    }
+  }
 }
 
 function addMessage (state, message) {
@@ -47,7 +48,10 @@ function addMessage (state, message) {
     thread.lastMessage = message
   }
   // add it to the messages map
-  Vue.set(state.messages, message.id, message)
+  state.messages = {
+    ...state.messages,
+    [message.id]: message
+  }
 }
 
 function setCurrentThread (state, id) {

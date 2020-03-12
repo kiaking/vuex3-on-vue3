@@ -1,5 +1,5 @@
 <template>
-  <li class="todo" :class="{ completed: todo.done, editing: editing }">
+  <li class="todo" :class="{ completed: todo.done, editing }">
     <div class="view">
       <input class="toggle"
         type="checkbox"
@@ -10,8 +10,8 @@
     </div>
     <input class="edit"
       v-show="editing"
-      v-focus="editing"
       :value="todo.text"
+      ref="input"
       @keyup.enter="doneEdit"
       @keyup.esc="cancelEdit"
       @blur="doneEdit">
@@ -19,6 +19,7 @@
 </template>
 
 <script>
+import { nextTick } from 'vue'
 import { mapActions } from 'vuex'
 
 export default {
@@ -36,6 +37,11 @@ export default {
           el.focus()
         })
       }
+    }
+  },
+  watch: {
+    editing (v) {
+      v && nextTick(() => { this.$refs.input.focus() })
     }
   },
   methods: {

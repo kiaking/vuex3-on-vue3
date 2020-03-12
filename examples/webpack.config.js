@@ -21,6 +21,7 @@ module.exports = {
   mode: 'development',
 
   entry: {
+    ...buildEntry('classic'),
     ...buildEntry('composition')
   },
 

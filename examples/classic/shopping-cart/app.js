@@ -1,13 +1,13 @@
 import 'babel-polyfill'
-import Vue from 'vue'
+import { createApp } from 'vue'
 import App from './components/App.vue'
 import store from './store'
 import { currency } from './currency'
 
-Vue.filter('currency', currency)
+// Vue.filter('currency', currency)
 
-new Vue({
-  el: '#app',
-  store,
-  render: h => h(App)
-})
+const app = createApp(App)
+
+app.use(store)
+
+app.mount('#app')

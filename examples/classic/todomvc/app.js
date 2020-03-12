@@ -1,10 +1,9 @@
-import 'babel-polyfill'
-import Vue from 'vue'
+import { createApp } from 'vue'
 import store from './store'
 import App from './components/App.vue'
 
-new Vue({
-  store, // inject store to all children
-  el: '#app',
-  render: h => h(App)
-})
+const app = createApp(App)
+
+app.use(store)
+
+app.mount('#app')

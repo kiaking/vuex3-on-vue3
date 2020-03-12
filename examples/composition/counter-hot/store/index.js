@@ -1,5 +1,4 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import { createStore } from 'vuex'
 import * as getters from './getters'
 import * as actions from './actions'
 import * as mutations from './mutations'
@@ -10,7 +9,7 @@ const state = {
   history: []
 }
 
-const store = new Vuex.Store({
+const store = createStore({
   state,
   getters,
   actions,

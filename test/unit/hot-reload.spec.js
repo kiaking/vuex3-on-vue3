@@ -1,8 +1,8 @@
-import { createApp, nextTick } from 'vue'
+// import { createApp, nextTick } from 'vue'
 import Vuex from '../../dist/vuex.common.js'
 
 const TEST = 'TEST'
-const isSSR = process.env.VUE_ENV === 'server'
+// const isSSR = process.env.VUE_ENV === 'server'
 
 describe('Hot Reload', () => {
   it('mutations', function () {

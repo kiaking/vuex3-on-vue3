@@ -30,13 +30,13 @@
     <footer class="footer" v-show="todos.length">
       <span class="todo-count">
         <strong>{{ remaining }}</strong>
-        {{ remaining | pluralize('item') }} left
+        {{ pluralize(remaining, 'item') }} left
       </span>
       <ul class="filters">
         <li v-for="(val, key) in filters">
           <a :href="'#/' + key"
             :class="{ selected: visibility === key }"
-            @click="visibility = key">{{ key | capitalize }}</a>
+            @click="visibility = key">{{ capitalize(key) }}</a>
         </li>
       </ul>
       <button class="clear-completed"
@@ -91,11 +91,13 @@ export default {
         this.$store.dispatch('addTodo', text)
       }
       e.target.value = ''
+    },
+    pluralize (n, w) {
+      return n === 1 ? w : (w + 's')
+    },
+    capitalize (s) {
+      return s.charAt(0).toUpperCase() + s.slice(1)
     }
-  },
-  filters: {
-    pluralize: (n, w) => n === 1 ? w : (w + 's'),
-    capitalize: s => s.charAt(0).toUpperCase() + s.slice(1)
   }
 }
 </script>

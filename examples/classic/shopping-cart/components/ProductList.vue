@@ -3,7 +3,7 @@
     <li
       v-for="product in products"
       :key="product.id">
-      {{ product.title }} - {{ product.price | currency }}
+      {{ product.title }} - {{ currency(product.price) }}
       <br>
       <button
         :disabled="!product.inventory"
@@ -16,14 +16,18 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
+import { currency } from '../currency'
 
 export default {
   computed: mapState({
     products: state => state.products.all
   }),
-  methods: mapActions('cart', [
-    'addProductToCart'
-  ]),
+  methods: {
+    ...mapActions('cart', [
+      'addProductToCart'
+    ]),
+    currency
+  },
   created () {
     this.$store.dispatch('products/getAllProducts')
   }

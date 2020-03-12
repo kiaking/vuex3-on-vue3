@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import { createStore } from 'vuex'
 import { mutations, STORAGE_KEY } from './mutations'
 import actions from './actions'

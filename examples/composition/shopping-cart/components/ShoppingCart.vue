@@ -38,19 +38,5 @@ export default {
       checkout
     }
   }
-  // computed: {
-    // ...mapState({
-    //   checkoutStatus: state => state.cart.checkoutStatus
-    // }),
-  //   ...mapGetters('cart', {
-  //     products: 'cartProducts',
-  //     total: 'cartTotalPrice'
-  //   })
-  // },
-  // methods: {
-  //   checkout (products) {
-  //     this.$store.dispatch('cart/checkout', products)
-  //   }
-  // }
 }
 </script>

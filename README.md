@@ -55,3 +55,4 @@ app.mount('#app')
 - Make all unit test working
 - Refactor the codebase
 - Update the build system to align with Vue 3
+- Update docs
